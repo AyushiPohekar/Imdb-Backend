@@ -189,6 +189,45 @@ export const data=[
   {
     movie: {
       genres:
+        "[{'id': 16, 'name': 'Animation'}, {'id': 35, 'name': 'Adventure'}, {'id': 10751, 'name': 'Comedy'}]",
+      id: 10,
+    
+      original_language: "en",
+      original_title: "Who framed Roger Rabbit",
+      overview:
+        "A toon-hating detective is a cartoon rabbit's only hope to prove his innocence when he is accused of murder.",
+      popularity: 21.946943,
+      poster_path: "https://resizing.flixster.com/hgrC8THZ4EWKZv21jjyrtpbigqQ=/300x300/v2/https://flxt.tmsimg.com/assets/p10907_v_v13_am.jpB",
+
+      releaseDate: "1995-10-30",
+
+      spoken_languages: "[{'iso_639_1': 'en', 'name': 'English'}]",
+      status: "Released",
+
+    
+    
+      vote_average: 7.7,
+      vote_count: 5415,
+    },
+    actors: [
+      {
+        name: "Bob Hoskins",
+        dob: "26 october 1942",
+        gender: "Male",
+        bio: "A regular theatre-goer, Hoskins dreamed of starring on stage, but before he could do so he had to work odd jobs for a long time to make ends meet. His acting career started out more by accident than by design, when he accompanied a friend to watch some auditions, only to be confused for one of the people auditioning, getting a script pushed into his hands with the message You're next"
+      }
+     
+    ],
+    producer: {
+      name: "Steve Starkey",
+      dob: "6 June 1951 ",
+      gender: "Male",
+      bio: "Steve Starkey is an American film producer and second unit director who is widely associated with Robert Zemeckis. He served as an assistant film editor for both The Empire Strikes Back (1980) and Return of the Jedi (1983)",
+    },
+  },
+  {
+    movie: {
+      genres:
         "[{'id': 16, 'name': 'Adventure'}, {'id': 35, 'name': 'Drama'}, {'id': 10751, 'name': 'Romance'}]",
       id: 1,
     

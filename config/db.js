@@ -90,14 +90,24 @@ const connectDB = async () => {
         continue;
       }
 
+      const existingProducer = await producerModel.findOne({
+        name: jsonObject.producer.name,
+      });
+    
+      let producer1;
+    
+      if (existingProducer) {
+        producer1 = existingProducer;
+      } else {
+        producer1 = new producerModel(jsonObject.producer);
+      }
 
 
-
-      const producer = new producerModel(jsonObject.producer);
-      await producer.save();
+    //   const producer = new producerModel(jsonObject.producer);
+      //await producer1.save();
 
       const movie = new movieModel(jsonObject.movie);
-      movie.producer = producer._id;
+      movie.producer = producer1._id;
 
       const actorReferences = [];
 
@@ -125,8 +135,8 @@ const connectDB = async () => {
       movie.actors = actorReferences;
       await movie.save();
 
-      producer.movies.push(movie._id);
-      await producer.save();
+      producer1.movies.push(movie._id);
+      await producer1.save();
 
       console.log('Data saved for:', jsonObject.movie.original_title);
     }
