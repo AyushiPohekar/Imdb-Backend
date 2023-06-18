@@ -24,12 +24,14 @@ export const data=[
     },
     actors: [
       {
+        
         name: "Tom Hanks",
         dob: "2/04/1960",
         gender: "Male",
         bio: "Thomas Jeffrey Hanks is an American actor and filmmaker. Known for both his comedic and dramatic roles, he is one of the most popular and recognizable film stars worldwide, and is regarded as an American cultural icon",
       },
       {
+        
         name: "Tim Allen",
         dob: "13 June 1953",
         gender: "Male",
