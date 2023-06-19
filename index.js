@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./route/authRoutes.js";
-
+import movieRoutes from "./route/movieRoute.js"
 import axios from "axios";
 
 
@@ -27,6 +27,7 @@ app.use(express.json())
 
 //routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/movies", movieRoutes);
 
 //rest api
 app.get('/',(req,res)=>{

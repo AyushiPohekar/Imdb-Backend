@@ -1,56 +1,52 @@
 import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  genres: {
+    type: [String],
+    required: true,
+  },
+  original_language: {
+    type: String,
+    required: true,
+  },
   original_title: {
     type: String,
-    required: true
+    required: true,
   },
-   genres:{
-    type:String
-   },
-   id:{
-    type:Number
-   },
-     original_language:{
-      type:String
-     },
-      popularity:{
-        type:Number
-      },
-      poster_path:{
-        type:String
-      },
-
+  overview: {
+    type: String,
+    required: true,
+  },
+  poster_path: {
+    type: String,
+    required: true,
+  },
   releaseDate: {
     type: String,
-   
+    required: true,
   },
-  overview:{
+  status: {
     type: String,
-
+    required: true,
   },
-  vote_average:{
+  vote_average: {
     type: Number,
-   
+    required: true,
   },
-  vote_count:{
-    type:Number
-  },
-  status:{
-    type:String
-  },
-  spoken_languages:[
-    {type:String},{type:String}
-  ],
  
   producer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Producer',
-    required: true
+    ref: 'producers',
+   
   },
   actors: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Actor'
+    ref: 'actors'
   }]
 });
 

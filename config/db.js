@@ -69,6 +69,7 @@ import { data } from "../data.js/MovieData.js";
 import movieModel from "../models/movieModel.js";
 import producerModel from "../models/producerModel.js";
 import actorModel from "../models/actorModel.js";
+import { v4 as uuidv4 } from "uuid";
 
 const connectDB = async () => {
   try {
@@ -78,17 +79,21 @@ const connectDB = async () => {
     );
 
     for (const jsonObject of data) {
-        // Check if the document with the same unique identifier already exists
-      const existingMovie = await movieModel.findOne({
-        id: jsonObject.movie.id,
-      });
-          // If the document already exists, skip saving
-      if (existingMovie) {
-        console.log(
-          `Data already exists for: ${jsonObject.movie.original_title}`
-        );
-        continue;
-      }
+      
+
+
+        const existingMovie = await movieModel.findOne({
+            id: jsonObject.movie.id,
+          });
+              // If the document already exists, skip saving
+          if (existingMovie) {
+            console.log(
+              `Data already exists for: ${jsonObject.movie.original_title}`
+            );
+            continue;
+          }
+      
+          const movie = new movieModel(jsonObject.movie);
 
       const existingProducer = await producerModel.findOne({
         name: jsonObject.producer.name,
@@ -103,10 +108,10 @@ const connectDB = async () => {
       }
 
 
-    //   const producer = new producerModel(jsonObject.producer);
-      //await producer1.save();
+      
 
-      const movie = new movieModel(jsonObject.movie);
+
+    
       movie.producer = producer1._id;
 
       const actorReferences = [];

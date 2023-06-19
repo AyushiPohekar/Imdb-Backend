@@ -19,7 +19,7 @@ const producerSchema = new mongoose.Schema({
   },
   movies: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Movie'
+    ref: 'movies'
   }]
 });
 
