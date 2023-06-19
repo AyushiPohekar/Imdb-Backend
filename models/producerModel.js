@@ -15,7 +15,7 @@ const producerSchema = new mongoose.Schema({
   },
   bio: {
     type: String,
-    required: true
+
   },
   movies: [{
     type: mongoose.Schema.Types.ObjectId,

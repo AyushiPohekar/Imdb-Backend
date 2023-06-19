@@ -69,7 +69,7 @@ import { data } from "../data.js/MovieData.js";
 import movieModel from "../models/movieModel.js";
 import producerModel from "../models/producerModel.js";
 import actorModel from "../models/actorModel.js";
-import { v4 as uuidv4 } from "uuid";
+
 
 const connectDB = async () => {
   try {
@@ -79,11 +79,8 @@ const connectDB = async () => {
     );
 
     for (const jsonObject of data) {
-      
-
-
-        const existingMovie = await movieModel.findOne({
-            id: jsonObject.movie.id,
+      const existingMovie = await movieModel.findOne({
+            movieId: jsonObject.movie.movieId,
           });
               // If the document already exists, skip saving
           if (existingMovie) {

@@ -2,7 +2,7 @@ export const data = [
   {
     movie: {
       genres: ["animation", "comedy", "family"],
-      id: 1,
+      movieId: 1,
       original_language: "en",
       original_title: "Toy Story",
       overview:
@@ -42,7 +42,7 @@ export const data = [
   {
     movie: {
       genres: ["animation", "comedy", "family"],
-      id: 2,
+      movieId: 2,
       original_language: "en",
       original_title: "Jumanji",
       overview:
@@ -82,7 +82,7 @@ export const data = [
   {
     movie: {
       genres: ["Romance", "comedy"],
-      id: 3,
+      movieId: 3,
       original_language: "en",
       original_title: "Grumpier Old Men",
       overview:
@@ -120,7 +120,7 @@ export const data = [
   {
     movie: {
       genres: ["drama", "comedy", "romance"],
-      id: 4,
+      movieId: 4,
       original_language: "en",
       original_title: "Waiting to Exhale",
       overview:
@@ -162,7 +162,7 @@ export const data = [
   {
     movie: {
       genres: ["animation", "adventure", "comedy"],
-      id: 5,
+      movieId: 5,
       original_language: "en",
       original_title: "Who framed Roger Rabbit",
       overview:
@@ -197,7 +197,7 @@ export const data = [
   {
     movie: {
       genres: ["adventure", "drama", "romance"],
-      id: 6,
+      movieId: 6,
       original_language: "en",
       original_title: "Cast Away",
       overview:
