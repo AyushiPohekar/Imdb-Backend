@@ -61,11 +61,14 @@ export const getAllMoviesById = async (req, res) => {
   }
 };
 
-// // POST /movies
-export const createMovies=async(req,res)=>{
+
+
+export const createMovies = async (req, res) => {
   try {
     const { genres, original_language, original_title, overview, poster_path, releaseDate, status, vote_average, producer, actors } = req.body;
-      // Generate a unique movieId
+   console.log("actors",actors)
+   
+    // Generate a unique movieId
     const movieId = generateUniqueMovieId();
 
     // Create the movie object
@@ -82,70 +85,66 @@ export const createMovies=async(req,res)=>{
       actors: [],
       producer: null
     });
-  console.log(typeof(actors))
 
     // Save the movie document
     const savedMovie = await movie.save();
-    const actorsArray = Array.isArray(actors) ? actors : [actors];
+
+    // Convert actors to an array if it's not already
+    //const actorsArray = Array.isArray(actors) ? actors : [actors];
+    const actorsArray = Array.isArray(req.body.actors) ? req.body.actors : [req.body.actors];
+
+    console.log("actors",actors)
     // Iterate through the actors array and add/update actors
-    for (const actorData of actors) {
+    for (const actorData of actorsArray) {
       let actor;
 
       // Check if actor already exists in the database based on a unique identifier
+      //const existingActor = await actorModel.findOne({ name: actorData.name });
+      console.log("actorData",actorData)
       const existingActor = await actorModel.findOne({ name: actorData.name });
-
       if (existingActor) {
         // Update the existing actor document
-        actor = existingActor;
-        actor.dob = actorData.dob;
-        actor.bio = actorData.bio;
-        actor.gender = actorData.gender;
+        existingActor.dob = actorData.dob;
+        //existingActor.name = actorData.name;
+        existingActor.bio = actorData.bio;
+        existingActor.gender = actorData.gender;
+        actor = await existingActor.save();
       } else {
         // Create a new actor document
-        actor = new actorModel({
+        actor = await actorModel.create({
           name: actorData.name,
-          gender :actorData.gender,
+          gender: actorData.gender,
           dob: actorData.dob,
           bio: actorData.bio,
-          
+          movies: [savedMovie._id]
         });
       }
-
-      // Add the movie reference to the actor document
-      actor.movies.push(savedMovie._id);
-
-      // Save the actor document
-      await actor.save();
 
       // Add the actor reference to the movie document
       savedMovie.actors.push(actor._id);
     }
 
-   
+    // Check if the producer already exists in the database based on a unique identifier
     const existingProducer = await producerModel.findOne({ name: producer.name });
     let producerDocument;
 
     if (existingProducer) {
       // Update the existing producer document
-      producerDocument = existingProducer;
-      producerDocument.gender = producer.gender;
-      producerDocument.dob = producer.dob;
-      producerDocument.bio = producer.bio;
+      existingProducer.gender = producer.gender;
+      existingProducer.dob = producer.dob;
+      existingProducer.bio = producer.bio;
+     // existingProducer.name = producer.name;
+      producerDocument = await existingProducer.save();
     } else {
       // Create a new producer document
-      producerDocument = new producerModel({
+      producerDocument = await producerModel.create({
         name: producer.name,
-        gender:producer.gender,
+        gender: producer.gender,
         dob: producer.dob,
-        bio: producer.bio
+        bio: producer.bio,
+        movies: [savedMovie._id]
       });
     }
-
-    // Add the movie reference to the producer document
-    producerDocument.movies.push(savedMovie._id);
-
-    // Save the producer document
-    await producerDocument.save();
 
     // Add the producer reference to the movie document
     savedMovie.producer = producerDocument._id;
@@ -154,105 +153,11 @@ export const createMovies=async(req,res)=>{
     await savedMovie.save();
 
     res.status(201).json({ message: 'Movie created successfully', movie: savedMovie });
-  
-     console.log(savedMovie)
-  
-  
-  
   } catch (error) {
-    console.log(error.message)
+    console.log(error);
+    res.status(500).json({ error: 'Error in creating movie' });
   }
-}
-
-// export const createMovies = async (req, res) => {
-//   try {
-//     const { genres, original_language, original_title, overview, poster_path, releaseDate, status, vote_average, producer, actors } = req.body;
-//     // Generate a unique movieId
-//     const movieId = generateUniqueMovieId();
-
-//     // Create the movie object
-//     const movie = new movieModel({
-//       movieId,
-//       genres,
-//       original_language,
-//       original_title,
-//       overview,
-//       poster_path,
-//       releaseDate,
-//       status,
-//       vote_average,
-//       actors: [],
-//       producer: null
-//     });
-
-//     // Save the movie document
-//     const savedMovie = await movie.save();
-
-//     // Convert actors to an array if it's not already
-//     const actorsArray = Array.isArray(actors) ? actors : [actors];
-
-//     // Iterate through the actors array and add/update actors
-//     for (const actorData of actorsArray) {
-//       let actor;
-
-//       // Check if actor already exists in the database based on a unique identifier
-//       const existingActor = await actorModel.findOne({ name: actorData.name });
-
-//       if (existingActor) {
-//         // Update the existing actor document
-//         existingActor.dob = actorData.dob;
-//         existingActor.name = actorData.name;
-//         existingActor.bio = actorData.bio;
-//         existingActor.gender = actorData.gender;
-//         actor = await existingActor.save();
-//       } else {
-//         // Create a new actor document
-//         actor = await actorModel.create({
-//           name: actorData.name,
-//           gender: actorData.gender,
-//           dob: actorData.dob,
-//           bio: actorData.bio,
-//           movies: [savedMovie._id]
-//         });
-//       }
-
-//       // Add the actor reference to the movie document
-//       savedMovie.actors.push(actor._id);
-//     }
-
-//     // Check if the producer already exists in the database based on a unique identifier
-//     const existingProducer = await producerModel.findOne({ name: producer.name });
-//     let producerDocument;
-
-//     if (existingProducer) {
-//       // Update the existing producer document
-//       existingProducer.gender = producer.gender;
-//       existingProducer.dob = producer.dob;
-//       existingProducer.bio = producer.bio;
-//       producerDocument = await existingProducer.save();
-//     } else {
-//       // Create a new producer document
-//       producerDocument = await producerModel.create({
-//         name: producer.name,
-//         gender: producer.gender,
-//         dob: producer.dob,
-//         bio: producer.bio,
-//         movies: [savedMovie._id]
-//       });
-//     }
-
-//     // Add the producer reference to the movie document
-//     savedMovie.producer = producerDocument._id;
-
-//     // Save the updated movie document with actor and producer references
-//     await savedMovie.save();
-
-//     res.status(201).json({ message: 'Movie created successfully', movie: savedMovie });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json({ error: 'Error in creating movie' });
-//   }
-// };
+};
 
 
 export const deleteMovieController = async (req, res) => {
