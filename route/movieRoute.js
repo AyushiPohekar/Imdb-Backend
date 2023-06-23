@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.get("/",getAllMovies);
 router.get("/:movieId",getAllMoviesById);
-router.post("/",createMovies);
-router.delete("/:movieId",deleteMovieController )
-router.put("/:movieId",updateMovieController)
+router.post("/",requireSignIn,createMovies);
+router.delete("/:movieId",requireSignIn,deleteMovieController )
+router.put("/:movieId",requireSignIn,updateMovieController)
 
 
  export default router;

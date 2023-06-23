@@ -78,72 +78,72 @@ const connectDB = async () => {
       `Connected to MongoDB Database ${conn.connection.host}`.bgMagenta.white
     );
 
-    for (const jsonObject of data) {
-      const existingMovie = await movieModel.findOne({
-            movieId: jsonObject.movie.movieId,
-          });
-              // If the document already exists, skip saving
-          if (existingMovie) {
-            console.log(
-              `Data already exists for: ${jsonObject.movie.original_title}`
-            );
-            continue;
-          }
+    // for (const jsonObject of data) {
+    //   const existingMovie = await movieModel.findOne({
+    //         movieId: jsonObject.movie.movieId,
+    //       });
+    //           // If the document already exists, skip saving
+    //       if (existingMovie) {
+    //         console.log(
+    //           `Data already exists for: ${jsonObject.movie.original_title}`
+    //         );
+    //         continue;
+    //       }
       
-          const movie = new movieModel(jsonObject.movie);
+    //       const movie = new movieModel(jsonObject.movie);
 
-      const existingProducer = await producerModel.findOne({
-        name: jsonObject.producer.name,
-      });
+    //   const existingProducer = await producerModel.findOne({
+    //     name: jsonObject.producer.name,
+    //   });
     
-      let producer1;
+    //   let producer1;
     
-      if (existingProducer) {
-        producer1 = existingProducer;
-      } else {
-        producer1 = new producerModel(jsonObject.producer);
-      }
+    //   if (existingProducer) {
+    //     producer1 = existingProducer;
+    //   } else {
+    //     producer1 = new producerModel(jsonObject.producer);
+    //   }
 
 
       
 
 
     
-      movie.producer = producer1._id;
+    //   movie.producer = producer1._id;
 
-      const actorReferences = [];
+    //   const actorReferences = [];
 
-      for (const actorData of jsonObject.actors) {
-        let actor;
+    //   for (const actorData of jsonObject.actors) {
+    //     let actor;
 
-        // Check if actor already exists in the database based on a unique identifier
-        const existingActor = await actorModel.findOne({
-           name: actorData.name,
-        });
+    //     // Check if actor already exists in the database based on a unique identifier
+    //     const existingActor = await actorModel.findOne({
+    //        name: actorData.name,
+    //     });
        
 
-        if (existingActor) {
-          actor = existingActor;
-        //   actor.movies.push(movie._id);
-        } else {
-          actor = new actorModel(actorData);
-        }
+    //     if (existingActor) {
+    //       actor = existingActor;
+    //     //   actor.movies.push(movie._id);
+    //     } else {
+    //       actor = new actorModel(actorData);
+    //     }
 
-        actor.movies.push(movie._id);
-        await actor.save();
-        actorReferences.push(actor._id);
-      }
+    //     actor.movies.push(movie._id);
+    //     await actor.save();
+    //     actorReferences.push(actor._id);
+    //   }
 
-      movie.actors = actorReferences;
-      await movie.save();
+    //   movie.actors = actorReferences;
+    //   await movie.save();
 
-      producer1.movies.push(movie._id);
-      await producer1.save();
+    //   producer1.movies.push(movie._id);
+    //   await producer1.save();
 
-      console.log('Data saved for:', jsonObject.movie.original_title);
-    }
+    //   console.log('Data saved for:', jsonObject.movie.original_title);
+    // }
 
-    console.log('All data saved successfully');
+    // console.log('All data saved successfully');
   } catch (error) {
     console.log(`Error in MongoDB: ${error}`.bgRed.white);
   }

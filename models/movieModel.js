@@ -8,35 +8,35 @@ const movieSchema = new mongoose.Schema({
   },
   genres: {
     type: [String],
-    required: true,
+  
   },
   original_language: {
     type: String,
-    required: true,
+
   },
   original_title: {
     type: String,
-    required: true,
+  
   },
   overview: {
     type: String,
-    required: true,
+  
   },
   poster_path: {
     type: String,
-    required: true,
+   
   },
   releaseDate: {
     type: String,
-    required: true,
+  
   },
   status: {
     type: String,
-    required: true,
+  
   },
   vote_average: {
     type: Number,
-    required: true,
+   
   },
  
   producer: {

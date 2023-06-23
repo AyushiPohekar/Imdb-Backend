@@ -82,11 +82,11 @@ export const createMovies=async(req,res)=>{
       actors: [],
       producer: null
     });
-
+  console.log(typeof(actors))
 
     // Save the movie document
     const savedMovie = await movie.save();
-
+    const actorsArray = Array.isArray(actors) ? actors : [actors];
     // Iterate through the actors array and add/update actors
     for (const actorData of actors) {
       let actor;
@@ -121,7 +121,7 @@ export const createMovies=async(req,res)=>{
       savedMovie.actors.push(actor._id);
     }
 
-    // Check if the producer already exists in the database based on a unique identifier
+   
     const existingProducer = await producerModel.findOne({ name: producer.name });
     let producerDocument;
 
@@ -155,14 +155,105 @@ export const createMovies=async(req,res)=>{
 
     res.status(201).json({ message: 'Movie created successfully', movie: savedMovie });
   
-  
+     console.log(savedMovie)
   
   
   
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 }
+
+// export const createMovies = async (req, res) => {
+//   try {
+//     const { genres, original_language, original_title, overview, poster_path, releaseDate, status, vote_average, producer, actors } = req.body;
+//     // Generate a unique movieId
+//     const movieId = generateUniqueMovieId();
+
+//     // Create the movie object
+//     const movie = new movieModel({
+//       movieId,
+//       genres,
+//       original_language,
+//       original_title,
+//       overview,
+//       poster_path,
+//       releaseDate,
+//       status,
+//       vote_average,
+//       actors: [],
+//       producer: null
+//     });
+
+//     // Save the movie document
+//     const savedMovie = await movie.save();
+
+//     // Convert actors to an array if it's not already
+//     const actorsArray = Array.isArray(actors) ? actors : [actors];
+
+//     // Iterate through the actors array and add/update actors
+//     for (const actorData of actorsArray) {
+//       let actor;
+
+//       // Check if actor already exists in the database based on a unique identifier
+//       const existingActor = await actorModel.findOne({ name: actorData.name });
+
+//       if (existingActor) {
+//         // Update the existing actor document
+//         existingActor.dob = actorData.dob;
+//         existingActor.name = actorData.name;
+//         existingActor.bio = actorData.bio;
+//         existingActor.gender = actorData.gender;
+//         actor = await existingActor.save();
+//       } else {
+//         // Create a new actor document
+//         actor = await actorModel.create({
+//           name: actorData.name,
+//           gender: actorData.gender,
+//           dob: actorData.dob,
+//           bio: actorData.bio,
+//           movies: [savedMovie._id]
+//         });
+//       }
+
+//       // Add the actor reference to the movie document
+//       savedMovie.actors.push(actor._id);
+//     }
+
+//     // Check if the producer already exists in the database based on a unique identifier
+//     const existingProducer = await producerModel.findOne({ name: producer.name });
+//     let producerDocument;
+
+//     if (existingProducer) {
+//       // Update the existing producer document
+//       existingProducer.gender = producer.gender;
+//       existingProducer.dob = producer.dob;
+//       existingProducer.bio = producer.bio;
+//       producerDocument = await existingProducer.save();
+//     } else {
+//       // Create a new producer document
+//       producerDocument = await producerModel.create({
+//         name: producer.name,
+//         gender: producer.gender,
+//         dob: producer.dob,
+//         bio: producer.bio,
+//         movies: [savedMovie._id]
+//       });
+//     }
+
+//     // Add the producer reference to the movie document
+//     savedMovie.producer = producerDocument._id;
+
+//     // Save the updated movie document with actor and producer references
+//     await savedMovie.save();
+
+//     res.status(201).json({ message: 'Movie created successfully', movie: savedMovie });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json({ error: 'Error in creating movie' });
+//   }
+// };
+
 
 export const deleteMovieController = async (req, res) => {
   const movieId = req.params.movieId;
@@ -190,7 +281,7 @@ export const deleteMovieController = async (req, res) => {
     // Delete the movie
     await movieModel.deleteOne({ _id: movie._id });
 
-    return res.status(200).json({ message: 'Movie deleted successfully' });
+    return res.status(200).json({ movie, message: 'Movie deleted successfully' });
   } catch (error) {
   console.log(error)
   }
