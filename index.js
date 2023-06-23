@@ -33,7 +33,7 @@ app.use("/api/v1/producers", producerRoutes);
 
 //rest api
 app.get('/',(req,res)=>{
-  res.send("<h1>Welcome to ecommerce app</h1>")
+  res.send("<h1>Welcome to Movie app</h1>")
 })
 
 
